@@ -50,7 +50,10 @@ from .models import (                       # noqa
     Url,                                    # noqa
     User,                                   # noqa
     UserStatus,                             # noqa
-    Status                                  # noqa
+    Status,                                 # noqa
+    QuickReply,
+    QuickReplyResponse,
+    QuickReplyOption,
 )
 
 from .api import Api                        # noqa
