@@ -2997,7 +2997,8 @@ class Api(object):
                           text,
                           user_id=None,
                           screen_name=None,
-                          return_json=False):
+                          return_json=False,
+                          quick_reply=None):
         """Post a twitter direct message from the authenticated user.
 
         Args:
@@ -3019,6 +3020,9 @@ class Api(object):
             data['screen_name'] = screen_name
         else:
             raise TwitterError({'message': "Specify at least one of user_id or screen_name."})
+
+        if quick_reply:
+            data['quick_reply'] = quick_reply
 
         resp = self._RequestUrl(url, 'POST', data=data)
         data = self._ParseAndCheckTwitter(resp.content.decode('utf-8'))

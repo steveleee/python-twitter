@@ -192,6 +192,7 @@ class DirectMessage(TwitterModel):
             'sender_id': None,
             'sender_screen_name': None,
             'text': None,
+            'quick_reply_response': None,
         }
 
         for (param, default) in self.param_defaults.items():
@@ -200,6 +201,8 @@ class DirectMessage(TwitterModel):
             self.sender = User.NewFromJsonDict(kwargs.get('sender', None))
         if 'recipient' in kwargs:
             self.recipient = User.NewFromJsonDict(kwargs.get('recipient', None))
+        if 'quick_reply' in kwargs:
+            self.quick_reply_response = QuickReplyResponse.NewFromJsonDict(kwargs.get('quick_reply_response'), None)
 
     def __repr__(self):
         if self.text and len(self.text) > 140:
@@ -393,6 +396,38 @@ class User(TwitterModel):
         else:
             return super(cls, cls).NewFromJsonDict(data=data)
 
+class QuickReply(TwitterModel):
+
+    def __init__(self, **kwargs):
+        self.param_defaults = {
+            'type': None,
+            'options': None,
+        }
+
+        for (param, default) in self.param_defaults.items():
+            setattr(self, param, kwargs.get(param, default))
+
+class QuickReplyOption(TwitterModel):
+
+    def __init__(self, **kwargs):
+        self.param_defaults = {
+            'label': None,
+            'description': None,
+            'metadata': None,
+        }
+
+        for (param, default) in self.param_defaults.items():
+            setattr(self, param, kwargs.get(param, default))
+
+class QuickReplyResponse(TwitterModel):
+    def __init__(self, **kwargs):
+        self.param_defaults = {
+            'type': None,
+            'metadata': None,
+        }
+
+        for (param, default) in self.param_defaults.items():
+            setattr(self, param, kwargs.get(param, default))
 
 class Status(TwitterModel):
     """A class representing the Status structure used by the twitter API.
